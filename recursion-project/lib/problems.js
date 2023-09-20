@@ -111,9 +111,35 @@ function pow(base, exponent) {
 //     1-dimensional array: ['some data']
 //     2-dimensional array: [['some data']]
 //     3-dimensional array: [[['some data']]]
-function flatten(data) {
 
+function flatten(data) {
+    let flattened = [];
+    if (Array.isArray(data) === false) return [data];
+
+    for (let i = 0; i < data.length; i++) {
+        if (Array.isArray(data[i])) {
+            flattened = flattened.concat(flatten(data[i]));
+        } else {
+            flattened = flattened.concat(data[i]);
+        }
+    }
+
+    return flattened;
 }
+
+// ALTERNATE SOLUTION:
+
+// function flatten(data) {
+//     let flattened = [];
+//     if (Array.isArray(data) === false) return [data];
+
+//     data.forEach((ele) => {
+//         let temp = flatten(ele);
+//         flattened.push(...temp);
+//     })
+
+//     return flattened;
+// }
 
 // Write a function, fileFinder(directories, targetFile), that accepts an object representing directories and a string respresenting a filename.
 // The function should return true, if the file is contained anywhere in the given directories.
@@ -154,10 +180,15 @@ function flatten(data) {
 // fileFinder(desktop, 'app_academy_logo.svg');     // => true
 // fileFinder(desktop, 'everlong.flac');            // => true
 // fileFinder(desktop, 'sequoia.jpeg');             // => false
+
 function fileFinder(directories, targetFile) {
-
+    for (let key in directories) {
+        if (key === targetFile || fileFinder(directories[key], targetFile)) {
+            return true;
+        }
+    }
+    return false;
 }
-
 
 // Write another function, pathFinder(directories, targetFile), that returns the path that contains the targetFile.
 // If the targetFile is not found in the directories, then return null.
@@ -168,10 +199,18 @@ function fileFinder(directories, targetFile) {
 // pathFinder(desktop, 'trixie_lou.jpeg'));     // => '/images/pets/trixie_lou.jpeg'
 // pathFinder(desktop, 'everlong.flac'));       // => '/music/genres/rock/everlong.flac'
 // pathFinder(desktop, 'honeybadger.png'));     // => null
+
 function pathFinder(directories, targetFile) {
+    for (let name in directories) {
+        if (name === targetFile) return '/' + targetFile;
 
+        let subdirectory = directories[name];
+        let subPath = pathFinder(subdirectory, targetFile);
+
+        if (subPath !== null) return name + subPath;
+    }
+    return null;
 }
-
 
 module.exports = {
     lucasNumber,
