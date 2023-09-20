@@ -20,10 +20,8 @@
 function lucasNumber(n) {
     if (n === 0) return 2;
     if (n === 1) return 1;
-
     return lucasNumber(n - 1) + lucasNumber(n - 2);
 }
-
 
 // Write a function, sumArray(array), that takes in an array of numbers.
 // The function should return the total sum of the elements.
@@ -36,11 +34,11 @@ function lucasNumber(n) {
 // sumArray([5])            // => 5
 // sumArray([5, 2])         // => 7
 // sumArray([4, 10, -1, 2]) // => 15
+
 function sumArray(array) {
     if (array.length === 0) return 0;
     return array[0] + sumArray(array.slice(1));
 }
-
 
 // Write a function, reverseString(str), that takes in a string.
 // The function should return the string with it's characters in reverse order.
@@ -53,10 +51,11 @@ function sumArray(array) {
 // reverseString("c")           // => "c"
 // reverseString("internet")    // => "tenretni"
 // reverseString("friends")     // => "sdneirf"
+
 function reverseString(str) {
-
+    if (str.length === 0) return "";
+    return reverseString(str.slice(1)) + str[0];
 }
-
 
 // Write a function, pow(base, exponent), that takes in two numbers.
 // The function should calculate the base raised to the exponent power.
@@ -74,10 +73,15 @@ function reverseString(str) {
 // pow(2, 5)    // => 32
 // pow(3, 4)    // => 81
 // pow(2, -5)   // => 0.03125
+
 function pow(base, exponent) {
-
+    if (exponent === 0) return 1;
+    if (exponent > 0) {
+        return base * pow(base, exponent - 1);
+    } else {
+        return 1 / base * pow(base, exponent + 1);
+    }
 }
-
 
 // A 1-dimensional array is also known as a flattened array.
 // Write a method, flatten(data), that accepts a single argument. The
